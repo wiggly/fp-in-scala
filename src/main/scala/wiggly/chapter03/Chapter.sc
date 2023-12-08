@@ -1,6 +1,8 @@
 
 import wiggly.chapter03.List
 import wiggly.chapter03.List.*
+import wiggly.chapter03.Tree
+import wiggly.chapter03.Tree.*
 
 val a = "hello"
 val b = "bye-bye"
@@ -17,11 +19,11 @@ val ex3: List[String] = Cons(a, Cons(b, Nil))
 val ex3expected: Int = 3
 
 val ex3actual: Int = List(1,2,3,4,5) match
-case Cons(x, Cons(2, Cons(4, _))) => x
-case Nil => 42
-case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
-case Cons(h, t) => h + sum(t)
-case _ => 101
+  case Cons(x, Cons(2, Cons(4, _))) => x
+  case Nil => 42
+  case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
+  case Cons(h, t) => h + sum(t)
+  case _ => 101
 
 assert(ex3expected == ex3actual)
 
@@ -48,4 +50,49 @@ val identNums = List.foldRight[Int,List[Int]](nums, Nil, Cons(_, _))
 
 // Ex 3.9
 val numsLength = length(nums)
+val numsLengthFL = lengthFL(nums)
+
+// Ex 3.12
+val revNums = reverse(nums)
+
+val numnum = append(nums,nums)
+
+val flat = flatten(Cons(nums, Cons(nums, Nil)))
+
+val evens = filter(nums, (x) => { x % 2 == 0 })
+
+val evensFM = filterFM(nums, (x) => { x % 2 == 0 })
+
+val added = zipAdd(nums, nums)
+
+val zipped = zip(nums, reverse(nums))
+
+val someNums = Cons(2, Cons(3, Nil))
+
+val otherNums = Cons(4, Cons(3, Nil))
+
+val xxx = hasSubsequence(nums, someNums)
+
+val yyy = hasSubsequence(nums, otherNums)
+
+// Trees
+val tree1: Tree[Int] = Branch[Int](
+  left = Branch[Int](
+    left = Leaf[Int](42),
+    right = Leaf[Int](23)
+  ),
+  right = Branch[Int](
+    left = Leaf[Int](7),
+    right = Branch[Int](
+      left = Leaf[Int](89),
+      right = Leaf[Int](5)
+    )
+  )
+)
+
+val t1max = tree1.maximum
+
+val t1depth = tree1.depth
+
+val t1mapped = tree1.map(x => x.toString.reverse)
 
