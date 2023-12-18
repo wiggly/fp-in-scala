@@ -67,13 +67,36 @@ val added = zipAdd(nums, nums)
 
 val zipped = zip(nums, reverse(nums))
 
+
+val xxxNums = Cons(4, Cons(2, Cons(3, Cons(2, Cons(3, Nil)))))
+
 val someNums = Cons(2, Cons(3, Nil))
 
 val otherNums = Cons(4, Cons(3, Nil))
 
+
+// 1, 2, 3, 4, 5
+
+// 3, 4 => true
+
+// 3, 5 => false
+
 val xxx = hasSubsequence(nums, someNums)
 
 val yyy = hasSubsequence(nums, otherNums)
+
+val xxx0 = hasSubsequence(nums, nums) // true
+val xxx1 = hasSubsequence(nums, Nil)  // true
+val xxx2 = hasSubsequence(Nil, Nil)   // true
+val xxx3 = hasSubsequence(Nil, nums)  // false
+
+val xxx4 = hasSubsequence(xxxNums, otherNums)  
+
+
+
+
+
+
 
 // Trees
 val tree1: Tree[Int] = Branch[Int](

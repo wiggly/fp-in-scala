@@ -150,18 +150,11 @@ object List:
   def zip[A, B](as: List[A], bs: List[B]): List[(A, B)] =
     zipWith(as, bs, Tuple2.apply)
 
-  // Ex 3.24
+  // Ex 3.24 - broken
   @tailrec
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
-    val suplen = length(sup)
-    val sublen = length(sub)
-    if(suplen < sublen) {
-      false
-    } else if(suplen == 0) {
-      false
-    } else {
       sup match
-        case Nil =>
+        case Nil => // never get here
           sub match
             case Nil => true
             case _ => false
@@ -175,4 +168,36 @@ object List:
                 hasSubsequence(supRest, subRest)
               }
     }
+
+  final case class Identity(value: String)
+
+  object Identity {
+    def fromString(v: String): Option[Identity] = ???
   }
+
+  @tailrec
+  def xhasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
+
+    sup match
+      case Nil => // never get here
+        sub match
+          case Nil => true
+          case _ => false
+      case Cons(a, supRest) =>
+        sub match
+          case Nil => true
+          case Cons(b, subRest) =>
+            if (a != b) {
+              hasSubsequence(supRest, sub)
+            } else {
+              hasSubsequence(supRest, subRest)
+            }
+  }
+
+
+
+// 1 2 3 4 5
+      // 3 4
+
+  // 4 5
+//   4
