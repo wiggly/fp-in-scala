@@ -81,16 +81,15 @@ val otherNums = Cons(4, Cons(3, Nil))
 
 // 3, 5 => false
 
-val xxx = hasSubsequence(nums, someNums)
+val xxx = hasSubsequence(nums, someNums) // true
 
-val yyy = hasSubsequence(nums, otherNums)
+val yyy = hasSubsequence(nums, otherNums) // false
 
 val xxx0 = hasSubsequence(nums, nums) // true
 val xxx1 = hasSubsequence(nums, Nil)  // true
 val xxx2 = hasSubsequence(Nil, Nil)   // true
 val xxx3 = hasSubsequence(Nil, nums)  // false
-
-val xxx4 = hasSubsequence(xxxNums, otherNums)  
+val xxx4 = hasSubsequence(xxxNums, otherNums) // false
 
 
 
@@ -119,3 +118,9 @@ val t1depth = tree1.depth
 
 val t1mapped = tree1.map(x => x.toString.reverse)
 
+
+val t1gsize = tree1.gsize
+
+val t1gdepth = tree1.gdepth
+
+val t1gmap = tree1.gmap(_.toString.reverse)

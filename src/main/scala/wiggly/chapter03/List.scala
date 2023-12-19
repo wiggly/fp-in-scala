@@ -6,7 +6,7 @@ enum List[+A]:
   case Nil
   case Cons(head: A, tail: List[A])
 
-object List:
+object List {
   def apply[A](as: A*): List[A] =
     if as.isEmpty then List.Nil
     else Cons(as.head, apply(as.tail*))
@@ -151,53 +151,22 @@ object List:
     zipWith(as, bs, Tuple2.apply)
 
   // Ex 3.24 - broken
-  @tailrec
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
-      sup match
-        case Nil => // never get here
-          sub match
-            case Nil => true
-            case _ => false
-        case Cons(a, supRest) =>
-          sub match
-            case Nil => true
-            case Cons(b, subRest) =>
-              if(a != b) {
-                hasSubsequence(supRest, sub)
-              } else {
-                hasSubsequence(supRest, subRest)
-              }
+    // is a a prefix of b
+    def isPrefix(a: List[A], b: List[A]): Boolean =
+      (length(b) >= length(a)) && foldLeft(zipWith(a, b, _ == _), true, _ && _)
+
+    @tailrec
+    def go(current: List[A]): Boolean = {
+      if(isPrefix(sub, current)) {
+        true
+      } else {
+        current match
+          case Nil => false
+          case Cons(_, rest) => go(rest)
+      }
     }
 
-  final case class Identity(value: String)
-
-  object Identity {
-    def fromString(v: String): Option[Identity] = ???
+    go(sup)
   }
-
-  @tailrec
-  def xhasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
-
-    sup match
-      case Nil => // never get here
-        sub match
-          case Nil => true
-          case _ => false
-      case Cons(a, supRest) =>
-        sub match
-          case Nil => true
-          case Cons(b, subRest) =>
-            if (a != b) {
-              hasSubsequence(supRest, sub)
-            } else {
-              hasSubsequence(supRest, subRest)
-            }
-  }
-
-
-
-// 1 2 3 4 5
-      // 3 4
-
-  // 4 5
-//   4
+}

@@ -1,5 +1,7 @@
 package wiggly.chapter03
 
+import wiggly.chapter03.List.{Cons, Nil}
+
 enum Tree[+A] {
   case Leaf(value: A)
   case Branch(left: Tree[A], right: Tree[A])
@@ -18,6 +20,31 @@ enum Tree[+A] {
     case Leaf(v) => Leaf(fn(v))
     case Branch(l, r) => Branch(l.map(fn), r.map(fn))
   }
+
+  // Ex 3.28
+  def fold[B](leafFn: A => B, branchFn: (B, B) => B): B = {
+    this match
+      case Leaf(a) =>
+        leafFn(a)
+      case Branch(left, right) =>
+        branchFn(left.fold(leafFn, branchFn), right.fold(leafFn, branchFn))
+  }
+
+  def gsize: Int = this.fold(
+    { _ => 1 },
+    { (a, b) => a + b }
+  )
+
+  def gdepth: Int = this.fold(
+    { _ => 1 },
+    { (a, b) => 1 + a.max(b) }
+  )
+
+  def gmap[B](fn: A => B): Tree[B] = this.fold(
+    { a => Leaf(fn(a)) },
+    { (left, right) => Branch(left, right) }
+  )
+
 }
 
 object Tree {
@@ -36,6 +63,5 @@ object Tree {
       case Branch(l, r) =>
         l.maximum.max(r.maximum)
   }
-
 }
 
