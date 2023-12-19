@@ -150,7 +150,7 @@ object List {
   def zip[A, B](as: List[A], bs: List[B]): List[(A, B)] =
     zipWith(as, bs, Tuple2.apply)
 
-  // Ex 3.24 - broken
+  // Ex 3.24 - fixed
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
     // is a a prefix of b
     def isPrefix(a: List[A], b: List[A]): Boolean =
