@@ -35,15 +35,44 @@ enum LazyList[+A] {
   }
 
   // Ex 5.3
-  def takeWhile(p: A => Boolean): LazyList[A] = {
-    this match {
-      case Empty => Empty
+//  def takeWhile(p: A => Boolean): LazyList[A] = {
+//    this match {
+//      case Empty => Empty
+//      case Cons(head, tail) => if(p(head())) {
+//        Cons(head, () => tail().takeWhile(p))
+//      } else {
+//        Empty
+//      }
+//    }
+//  }
+
+  def foldRight[B](acc: => B)(f: (A, => B) => B): B = {
+    this match
+      case Cons(h, t) => f(h(), t().foldRight(acc)(f))
+      case _ => acc
+  }
+
+  // Ex 5.4
+  def forAll(p: A => Boolean): Boolean = {
+    this match
+      case Empty => true
       case Cons(head, tail) => if(p(head())) {
-        Cons(head, () => tail().takeWhile(p))
+        tail().forAll(p)
       } else {
-        Empty
+        false
       }
-    }
+  }
+
+  // Ex 5.5
+  // this feels mind-bending right now
+  def takeWhile(p: A => Boolean): LazyList[A] = {
+    this.foldRight(LazyList.empty[A])( (a, b) =>
+      if(p(a)) {
+        LazyList.cons(a, b)
+      } else {
+        b
+      }
+    )
   }
 }
 
