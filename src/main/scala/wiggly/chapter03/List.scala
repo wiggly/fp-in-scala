@@ -85,7 +85,7 @@ object List {
 
   // Ex 3.14
   def append[A](a: List[A], b: List[A]): List[A] = {
-    foldRight(a, b, Cons)
+    foldRight(a, b, Cons.apply)
   }
 
   // Ex 3.15
@@ -146,10 +146,10 @@ object List {
           case Nil => Nil
           case Cons(b, bRest) => Cons(fn(a, b), zipWith(aRest, bRest, fn))
   }
-
+  
   def zip[A, B](as: List[A], bs: List[B]): List[(A, B)] =
     zipWith(as, bs, Tuple2.apply)
-
+  
   // Ex 3.24 - fixed
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
     // is a a prefix of b
