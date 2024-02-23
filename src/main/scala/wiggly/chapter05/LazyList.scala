@@ -74,6 +74,39 @@ enum LazyList[+A] {
       }
     )
   }
+
+  // Ex 5.6
+  def headOption: Option[A] = {
+    this.foldRight(Option.empty[A])((a, b) => Option.apply(a))
+  }
+
+  // Ex 5.7
+  def map[B](fn: A => B): LazyList[B] = {
+    this.foldRight(LazyList.empty[B])( (a, b) =>
+      LazyList.cons(fn(a), b)
+    )
+  }
+
+  def filter(p: A => Boolean): LazyList[A] = {
+    this.foldRight(LazyList.empty[A])((a, b) =>
+      if(p(a)) {
+        LazyList.cons(a, b.filter(p))
+      } else {
+        b.filter(p)
+      }
+    )
+  }
+
+  def append[S >: A](other: => LazyList[S]): LazyList[S] = {
+    this.foldRight(other)((a, b) => LazyList.cons(a, b))
+  }
+
+  def flatMap[B](fn: A => LazyList[B]): LazyList[B] = {
+    this
+      .map(fn)
+      .foldRight(LazyList.empty[B])( (item, acc) => item.append(acc))
+ }
+
 }
 
 object LazyList {
