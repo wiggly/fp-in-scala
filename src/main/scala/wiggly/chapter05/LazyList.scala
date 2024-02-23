@@ -107,6 +107,7 @@ enum LazyList[+A] {
       .foldRight(LazyList.empty[B])( (item, acc) => item.append(acc))
  }
 
+
 }
 
 object LazyList {
@@ -124,5 +125,19 @@ object LazyList {
     else cons(as.head, apply(as.tail*))
   }
 
+  // Ex 5.8
+  def continually[A](a: A): LazyList[A] = {
+    LazyList.cons(a, continually(a))
+  }
+
+  // Ex 5.9
+  def from(n: Int): LazyList[Int] = {
+    LazyList.cons(n, from(n+1))
+  }
+
+  // Ex 5.11
+  def unfold[A, S](state: S)(f: S => Option[(A, S)]): LazyList[A] = {
+    ???
+  }
 }
 

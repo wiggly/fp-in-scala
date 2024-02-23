@@ -35,6 +35,21 @@ object Main extends App {
 
   println(s"x1.flatMap({n => LazyList(n * -1, n)}): ${x1.flatMap({ n => LazyList(n * -1, n) }).toList}")
 
+  println(s"LazyList.continually(42).take(3): ${LazyList.continually(42).take(3).toList}")
+
+  println(s"LazyList.from(42).take(3): ${LazyList.from(42).take(3).toList}")
+
+  println(s"fibs.take(10): ${fibs.take(10).toList}")
+
+
+  // Ex 5.10
+  def fibs: LazyList[Int] = {
+    def go(a: Int, b: Int): LazyList[Int] = {
+      val next = a + b
+      LazyList.cons(next, go(b, next))
+    }
+    LazyList(0,1).append(go(0, 1))
+  }
 
   def str(value: String): String = {
     println(s"EVAL ${value}")
